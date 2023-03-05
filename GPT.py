@@ -1,9 +1,11 @@
 import os
 import openai
 import time
+import whisper
 import streamlit as st 
 from dotenv import load_dotenv
 load_dotenv() 
+whisper_model = whisper.load_model("base") 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 def chatGPT(userinput,temperature=0,max_tokens=1000): 
     response = openai.ChatCompletion.create(
