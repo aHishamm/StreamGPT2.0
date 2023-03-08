@@ -14,6 +14,10 @@ pip install -r requirements.txt
 streamlit run GPT.py
 ```
 
-#### Project Preview (THIS IS V1.0 PREVIEW, VIDEO WILL BE UPDATED FOR V2.0)
-https://user-images.githubusercontent.com/40188935/222928458-b41dba76-612b-4f72-b4cb-619a66339560.mp4
+#### Project Preview (V2.0 PREVIEW)
+
+
+https://user-images.githubusercontent.com/40188935/223849331-f217871d-dff4-46cd-ab2e-8e64aa4a04f1.mp4
+
+
 
