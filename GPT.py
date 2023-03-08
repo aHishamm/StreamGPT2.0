@@ -15,6 +15,15 @@ def chatGPT(userinput,temperature=0,max_tokens=1000):
         max_tokens=max_tokens
     )
     return response['choices'][0]['message']['content']
+def whisper_transcribe(audiopath): 
+    whisper_model = whisper.load_model("base") 
+    audio = whisper.load_audio(audiopath) 
+    audio = whisper.pad_or_trim(audio) 
+    mel = whisper.log_mel_spectrogram(audio).to(whisper_model.device)
+    _,probs = whisper_model.detect_languages(mel)
+    lang = max(probs, key=probs.get)
+    result = whisper_model.transcribe(audiopath)['text'] 
+    return result
 #Example Styles I came up with 
 styleList = ['None','Plagiarism Checker','Shakespearean Response','Python Interpreter','Java Code Generation','Music Suggestions','Hackathon Idea Generator']
 colsec, col1, col2 = st.columns(3) 
