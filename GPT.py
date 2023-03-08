@@ -3,6 +3,7 @@ import openai
 import time
 import whisper
 import streamlit as st 
+from tempfile import NamedTemporaryFile
 from dotenv import load_dotenv
 load_dotenv() 
 whisper_model = whisper.load_model("base") 
@@ -15,22 +16,21 @@ def chatGPT(userinput,temperature=0,max_tokens=1000):
         max_tokens=max_tokens
     )
     return response['choices'][0]['message']['content']
-def whisper_transcribe(audiopath): 
-    whisper_model = whisper.load_model("base") 
-    audio = whisper.load_audio(audiopath) 
-    audio = whisper.pad_or_trim(audio) 
-    mel = whisper.log_mel_spectrogram(audio).to(whisper_model.device)
-    _,probs = whisper_model.detect_languages(mel)
-    lang = max(probs, key=probs.get)
-    result = whisper_model.transcribe(audiopath)['text'] 
-    return result
 #Example Styles I came up with 
 styleList = ['None','Plagiarism Checker','Shakespearean Response','Python Interpreter','Java Code Generation','Music Suggestions','Hackathon Idea Generator']
 colsec, col1, col2 = st.columns(3) 
 with colsec: 
     #temperature and max_tokens sliders 
     temperature = st.slider('The higher the temperature, the more random the response',0.0,2.0,0.0)
-    max_tokens = st.slider('Maximum number of tokens that ChatGPT will generate as a response',100,2500,100)    
+    max_tokens = st.slider('Maximum number of tokens that ChatGPT will generate as a response',100,2500,100) 
+    audio = st.file_uploader("Upload an audio file: ",type=['mp3'])  
+    if audio is not None:
+        with NamedTemporaryFile(suffix="mp3") as temp:
+            temp.write(audio.getvalue())
+            temp.seek(0)
+            model = whisper.load_model("base")
+            result = model.transcribe(temp.name) 
+            res = chatGPT(result['text'],temperature,max_tokens) 
 with col1: 
     style_option = st.selectbox("Choose a style: ",styleList)
     if style_option == 'Plagiarism Checker': 
@@ -67,7 +67,7 @@ with col1:
         if user_input: 
             res = chatGPT(user_input,temperature,max_tokens)
 with col2: 
-    if user_input: 
+    if user_input or audio: 
         with st.spinner('Processing...'): 
             time.sleep(1)
         st.write("ChatGPT Response: ")
