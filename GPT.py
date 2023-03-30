@@ -19,6 +19,8 @@ def chatGPT(userinput,temperature=0,max_tokens=1000):
     return response['choices'][0]['message']['content']
 #Example Styles I came up with 
 styleList = ['None','Plagiarism Checker','Shakespearean Response','Python Interpreter','Java Code Generation','Music Suggestions','Hackathon Idea Generator']
+#Language selector options 
+langList = ['Arabic','English','Italian','German','Hebrew','Russian','Urdu','Hindi'] 
 colsec, col1, col2 = st.columns(3) 
 with colsec: 
     #temperature and max_tokens sliders 
@@ -36,34 +38,35 @@ with colsec:
         res = chatGPT(result['text'],temperature,max_tokens)
 with col1: 
     style_option = st.selectbox("Choose a style: ",styleList)
+    lang_option = st.selectbox("Choose a language: ",langList)
     if style_option == 'Plagiarism Checker': 
         user_input = st.text_input("Write the text you want to check for plagiarism: ")
         if user_input: 
-            res = chatGPT("Check the following text for plagiarism: "+user_input,temperature,max_tokens) 
+            res = chatGPT("Use the "+lang_option+" when answering the following question: "+"Check the following text for plagiarism: "+user_input,temperature,max_tokens) 
     elif style_option == 'Shakespearean Response': 
         user_input = st.text_input("Write the text you want to be rewritten in a Shakespearean way: ")
         if user_input: 
-            res = chatGPT("Rewrite the following text in a Shakespearean way: "+user_input,temperature,max_tokens)
+            res = chatGPT("Use the "+lang_option+" when answering the following question: "+"Rewrite the following text in a Shakespearean way: "+user_input,temperature,max_tokens)
     elif style_option == 'Python Interpreter': 
         user_input = st.text_input("Write down the coding problem: ")
         if user_input: 
-            res = chatGPT("Write a Python program that performs the following description: "+user_input,temperature,max_tokens)
+            res = chatGPT("Use the "+lang_option+" when answering the following question: "+"Write a Python program that performs the following description: "+user_input,temperature,max_tokens)
     elif style_option == 'Java Code Generation': 
         user_input = st.text_input("Write down the coding problem: ") 
         if user_input: 
-            res = chatGPT("Write a Java program that performs the following description: "+user_input,temperature,max_tokens)
+            res = chatGPT("Use the "+lang_option+" when answering the following question: "+"Write a Java program that performs the following description: "+user_input,temperature,max_tokens)
     elif style_option == 'Music Suggestions': 
         user_input = st.text_input("Write down the name of the song and the artist who performed it: ") 
         if user_input: 
-            res = chatGPT("Suggest songs similar to the given song: "+user_input,temperature,max_tokens) 
+            res = chatGPT("Use the "+lang_option+" when answering the following question: "+"Suggest songs similar to the given song: "+user_input,temperature,max_tokens) 
     elif style_option == 'Hackathon Idea Generator': 
         user_input = st.text_input("Write down the theme you want ideas for: ")
         if user_input: 
-            res = chatGPT("Generate five ideas based on this theme: "+user_input,temperature,max_tokens)
+            res = chatGPT("Use the "+lang_option+" when answering the following question: "+"Generate five ideas based on this theme: "+user_input,temperature,max_tokens)
     else: 
         user_input = st.text_input("Ask ChatGPT anything :) ")
         if user_input: 
-            res = chatGPT(user_input,temperature,max_tokens)
+            res = chatGPT("Use the "+lang_option+" when answering the following question: "+user_input,temperature,max_tokens)
 with col2: 
     if user_input or st.button("Process"): 
         with st.spinner('Processing...'): 
