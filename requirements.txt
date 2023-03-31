@@ -5,3 +5,4 @@ pandas
 openai
 git+https://github.com/openai/whisper.git
 streamlit-audiorecorder
+gradio 
